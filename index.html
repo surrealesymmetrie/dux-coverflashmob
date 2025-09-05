@@ -66,8 +66,19 @@
   .download-btn:hover {
     background: rgba(128, 0, 128, 0.8);
   }
+  .info-text {
+    font-family: 'Foglihten', serif;
+    font-size: 1.1em;
+    margin: 40px 0 20px;
+    color: #ccc;
+  }
   .video-block {
     margin: 40px 0;
+  }
+  .video-title {
+    font-family: 'Foglihten', serif;
+    font-size: 1.3em;
+    margin-bottom: 10px;
   }
 </style>
 </head>
@@ -96,8 +107,14 @@
   <a href="full.jpg" download class="download-btn">Download</a>
 </div>
 
+<!-- Hinweistext -->
+<div class="info-text">
+  Mit den passenden Sounds aus meinem TikTok Kanal seid ihr auch rechtlich auf der sicheren Seite!
+</div>
+
 <!-- TikTok Video -->
 <div class="video-block">
+  <div class="video-title">Die Titelmelodie allein...</div>
   <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@surreale_symmetrie/video/7538015379386387734" data-video-id="7538015379386387734" style="max-width: 605px;min-width: 325px;">
     <section> <a target="_blank" title="TikTok" href="https://www.tiktok.com/@surreale_symmetrie/video/7538015379386387734">Zum TikTok-Video</a> </section>
   </blockquote>
@@ -140,6 +157,13 @@ audio.addEventListener('timeupdate', () => {
   localStorage.setItem('flashmob-time', audio.currentTime);
 });
 
+// Nächsten Track automatisch starten
+audio.addEventListener('ended', () => {
+  if (current < tracks.length - 1) {
+    playTrack(current + 1);
+  }
+});
+
 // Beim Laden gespeicherten Stand wiederherstellen
 window.addEventListener('load', () => {
   renderPlaylist();
@@ -157,7 +181,6 @@ window.addEventListener('load', () => {
     playTrack(0);
   }
 
-  // Direkt versuchen zu starten
   audio.play().catch(err => {
     console.log("Autoplay blockiert:", err);
   });
@@ -166,4 +189,3 @@ window.addEventListener('load', () => {
 
 </body>
 </html>
-
