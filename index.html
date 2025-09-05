@@ -130,13 +130,36 @@ function playTrack(index) {
   current = index;
   audio.src = tracks[index][1];
   document.getElementById('nowPlaying').textContent = "▶ " + tracks[index][0];
-  audio.play();
+  audio.play().catch(err => {
+    console.log("Autoplay blockiert:", err);
+  });
 }
 
-// Autostart mit erstem Track
+// Fortschritt speichern
+audio.addEventListener('timeupdate', () => {
+  localStorage.setItem('flashmob-track', current);
+  localStorage.setItem('flashmob-time', audio.currentTime);
+});
+
+// Beim Laden gespeicherten Stand wiederherstellen
 window.addEventListener('load', () => {
   renderPlaylist();
-  playTrack(0);
+  const savedTrack = localStorage.getItem('flashmob-track');
+  const savedTime = localStorage.getItem('flashmob-time');
+
+  if (savedTrack !== null) {
+    current = parseInt(savedTrack);
+    audio.src = tracks[current][1];
+    document.getElementById('nowPlaying').textContent = "▶ " + tracks[current][0];
+    if (savedTime) {
+      audio.currentTime = parseFloat(savedTime);
+    }
+    audio.play().catch(err => {
+      console.log("Autoplay blockiert:", err);
+    });
+  } else {
+    playTrack(0);
+  }
 });
 </script>
 
