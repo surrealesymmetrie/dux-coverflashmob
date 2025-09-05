@@ -66,12 +66,8 @@
   .download-btn:hover {
     background: rgba(128, 0, 128, 0.8);
   }
-  .video-placeholder {
+  .video-block {
     margin: 40px 0;
-    padding: 20px;
-    border: 2px dashed #555;
-    color: #777;
-    font-style: italic;
   }
 </style>
 </head>
@@ -80,29 +76,32 @@
 <h1>DANKE FÜR DEINEN SUPPORT!</h1>
 
 <!-- Audio Player -->
-<audio id="audio" controls autoplay controlsList="nodownload"></audio>
+<audio id="audio" controls autoplay muted controlsList="nodownload"></audio>
 <div id="nowPlaying"></div>
 <div id="playlist"></div>
 
 <!-- Cover-Downloads -->
 <div class="cover-block">
-  <img src="dux.png" alt="Cover Front">
-  <a href="dux.png" download class="download-btn">Download</a>
+  <img src="front.jpg" alt="Cover Front">
+  <a href="front.jpg" download class="download-btn">Download Front</a>
 </div>
 
 <div class="cover-block">
-  <img src="square.JPG" alt="Cover Square">
-  <a href="square.JPG" download class="download-btn">Download</a>
+  <img src="square.jpg" alt="Cover Square">
+  <a href="square.jpg" download class="download-btn">Download Square</a>
 </div>
 
 <div class="cover-block">
-  <img src="full.png" alt="Cover Full">
-  <a href="full.png" download class="download-btn">Download</a>
+  <img src="full.jpg" alt="Cover Full">
+  <a href="full.jpg" download class="download-btn">Download Full</a>
 </div>
 
-<!-- TikTok Videos Platzhalter -->
-<div class="video-placeholder">
-  Hier erscheinen bald die drei TikTok-Videos zum Coverflashmob.
+<!-- TikTok Video -->
+<div class="video-block">
+  <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@username/video/0000000000" data-video-id="0000000000" style="max-width: 605px;min-width: 325px;">
+    <section> <a target="_blank" title="TikTok" href="https://vm.tiktok.com/ZNdqrT8cx/">Zum TikTok-Video</a> </section>
+  </blockquote>
+  <script async src="https://www.tiktok.com/embed.js"></script>
 </div>
 
 <script>
@@ -154,17 +153,20 @@ window.addEventListener('load', () => {
     if (savedTime) {
       audio.currentTime = parseFloat(savedTime);
     }
-    audio.play().catch(err => {
-      console.log("Autoplay blockiert:", err);
-    });
   } else {
     playTrack(0);
   }
+
+  // Autoplay-Workaround: erst stumm starten, dann Ton aktivieren
+  audio.play().then(() => {
+    setTimeout(() => {
+      audio.muted = false;
+    }, 1500);
+  }).catch(err => {
+    console.log("Autoplay blockiert:", err);
+  });
 });
 </script>
 
 </body>
 </html>
-
-
-
