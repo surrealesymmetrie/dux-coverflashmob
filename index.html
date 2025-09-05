@@ -89,25 +89,25 @@
 <h1>DANKE FÜR DEINEN SUPPORT!</h1>
 
 <!-- Audio Player -->
-<audio id="audio" controls autoplay muted controlsList="nodownload"></audio>
+<audio id="audio" controls autoplay controlsList="nodownload"></audio>
 <div id="nowPlaying"></div>
 <div id="playlist"></div>
 <button id="startAudio" class="start-audio-btn">▶ Audio starten</button>
 
 <!-- Cover-Downloads -->
 <div class="cover-block">
-  <img src="front.jpg" alt="Cover Front">
-  <a href="front.jpg" download class="download-btn">Download Front</a>
+  <img src="dux.png" alt="Cover DUX">
+  <a href="dux.png" download class="download-btn">Download DUX</a>
 </div>
 
 <div class="cover-block">
-  <img src="square.jpg" alt="Cover Square">
-  <a href="square.jpg" download class="download-btn">Download Square</a>
+  <img src="square.JPG" alt="Cover Square">
+  <a href="square.JPG" download class="download-btn">Download Square</a>
 </div>
 
 <div class="cover-block">
-  <img src="full.jpg" alt="Cover Full">
-  <a href="full.jpg" download class="download-btn">Download Full</a>
+  <img src="full.png" alt="Cover Full">
+  <a href="full.png" download class="download-btn">Download Full</a>
 </div>
 
 <!-- TikTok Video -->
@@ -172,19 +172,14 @@ window.addEventListener('load', () => {
     playTrack(0);
   }
 
-  // Autoplay-Workaround: stumm starten, dann Ton aktivieren
-  audio.play().then(() => {
-    setTimeout(() => {
-      audio.muted = false;
-    }, 1500);
-  }).catch(() => {
+  // Direkt versuchen zu starten
+  audio.play().catch(() => {
     startBtn.style.display = 'inline-block';
   });
 });
 
 // Manueller Start-Button
 startBtn.addEventListener('click', () => {
-  audio.muted = false;
   audio.play();
   startBtn.style.display = 'none';
 });
