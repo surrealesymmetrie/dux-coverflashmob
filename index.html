@@ -69,19 +69,6 @@
   .video-block {
     margin: 40px 0;
   }
-  .start-audio-btn {
-    display: none;
-    margin-top: 15px;
-    padding: 10px 20px;
-    background: rgba(128, 0, 128, 0.6);
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  .start-audio-btn:hover {
-    background: rgba(128, 0, 128, 0.8);
-  }
 </style>
 </head>
 <body>
@@ -92,7 +79,6 @@
 <audio id="audio" controls autoplay controlsList="nodownload"></audio>
 <div id="nowPlaying"></div>
 <div id="playlist"></div>
-<button id="startAudio" class="start-audio-btn">▶ Audio starten</button>
 
 <!-- Cover-Downloads -->
 <div class="cover-block">
@@ -126,7 +112,6 @@ const tracks = [
 
 const audio = document.getElementById('audio');
 const playlist = document.getElementById('playlist');
-const startBtn = document.getElementById('startAudio');
 let current = 0;
 
 function renderPlaylist() {
@@ -144,8 +129,8 @@ function playTrack(index) {
   current = index;
   audio.src = tracks[index][1];
   document.getElementById('nowPlaying').textContent = "▶ " + tracks[index][0];
-  audio.play().catch(() => {
-    startBtn.style.display = 'inline-block';
+  audio.play().catch(err => {
+    console.log("Autoplay blockiert:", err);
   });
 }
 
@@ -173,14 +158,11 @@ window.addEventListener('load', () => {
   }
 
   // Direkt versuchen zu starten
-  audio.play().catch(() => {
-    startBtn.style.display = 'inline-block';
+  audio.play().catch(err => {
+    console.log("Autoplay blockiert:", err);
   });
 });
-
 </script>
 
 </body>
 </html>
-
-
